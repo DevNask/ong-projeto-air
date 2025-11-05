@@ -18,7 +18,6 @@
   const NAV_SELECTOR = '.menu'; // delegação de cliques no menu
   const LINK_SELECTOR = 'a[href]'; // consider links com href
 
-  /* ---------- Helpers ---------- */
   function qs(selector, root = document) { return root.querySelector(selector); }
   function qsa(selector, root = document) { return Array.from(root.querySelectorAll(selector)); }
 
@@ -47,11 +46,6 @@
     return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
   }
 
-  /* ---------- Simple template function ----------
-     supports templates like:
-       "Olá, {{nome}}!"
-     and templates in nodes using data-template attributes
-  */
   function renderTemplate(str, ctx = {}) {
     return str.replace(/\{\{(.+?)\}\}/g, (_, key) => {
       key = key.trim();
@@ -59,17 +53,17 @@
     });
   }
 
-  /* ---------- SPA: fetch page and inject main ---------- */
+
   async function loadPage(url, push = true) {
     try {
       showLoadingState(true);
-      // fetch the page
+ 
       const res = await fetch(url, {cache: 'no-store'});
       if (!res.ok) {
         throw new Error('Erro ao carregar a página');
       }
       const text = await res.text();
-      // parse
+      
       const parser = new DOMParser();
       const doc = parser.parseFromString(text, 'text/html');
       const newMain = doc.querySelector(ROOT_MAIN_SELECTOR);
@@ -78,7 +72,7 @@
       }
       const targetMain = qs(ROOT_MAIN_SELECTOR);
       if (!targetMain) return;
-      // animate out/in
+      
       targetMain.classList.add('pa-exit');
       await new Promise(r => setTimeout(r, 180));
       targetMain.innerHTML = newMain.innerHTML;
@@ -86,11 +80,11 @@
       targetMain.classList.add('pa-enter');
       setTimeout(() => targetMain.classList.remove('pa-enter'), 350);
 
-      // update document title if present
+      
       const newTitle = doc.querySelector('title');
       if (newTitle) document.title = newTitle.textContent;
 
-      // re-initialize behaviors for new content
+      
       initDynamicFeatures(targetMain);
 
       if (push) history.pushState({spa: true, url}, '', url);
@@ -103,36 +97,36 @@
   }
 
   function showLoadingState(active) {
-    // simple top bar / body class
+    
     document.documentElement.classList.toggle('pa-loading', !!active);
   }
 
-  /* ---------- Intercept link clicks (delegation) ---------- */
+  
   function handleLinkClicks(e) {
-    // only left clicks, without modifiers
+  
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
     const a = e.target.closest(LINK_SELECTOR);
     if (!a) return;
     const href = a.getAttribute('href');
     if (!href) return;
-    // only handle same-origin links and .html pages (progressive enhancement)
+    
     const isHash = href.startsWith('#');
     const isExternal = a.host !== location.host;
     const isMailto = href.startsWith('mailto:') || href.startsWith('tel:');
     if (isHash || isExternal || isMailto) return;
-    // we prefer to only intercept .html pages (index.html, projetos.html, cadastro.html)
+    
     if (href.endsWith('.html') || href === '/' || href === '' || href.startsWith(location.pathname)) {
       e.preventDefault();
       loadPage(href);
     }
   }
 
-  /* ---------- Validate form data (consistency rules) ---------- */
+  
   function validateCadastroForm(formEl) {
     const errors = [];
     const get = id => (formEl.querySelector(`#${id}`) ? formEl.querySelector(`#id_${id}`) : null);
 
-    // get values defensively (works even if IDs differ)
+  
     const nomeEl = formEl.querySelector('#nome') || formEl.querySelector('input[name="nome"]');
     const emailEl = formEl.querySelector('#email') || formEl.querySelector('input[name="email"]');
     const contatoEl = formEl.querySelector('#contato') || formEl.querySelector('input[name="contato"]');
@@ -151,7 +145,7 @@
     if (!nome || nome.length < 3) {
       errors.push({field: nomeEl, message: 'Nome inválido. Informe pelo menos 3 caracteres.'});
     }
-    // Email - regex simples
+    // Email 
     const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email || !emailRe.test(email)) {
       errors.push({field: emailEl, message: 'E-mail inválido.'});
@@ -161,7 +155,7 @@
     if (!contato || phoneDigits.length < 10) {
       errors.push({field: contatoEl, message: 'Telefone inválido. Use DDD + número.'});
     }
-    // Data de nascimento - checar maioridade mínima (por exemplo 12 anos)
+    // Data de nascimento - checar idade mínima (por exemplo 12 anos)
     if (!nascimento) {
       errors.push({field: nascimentoEl, message: 'Informe a data de nascimento.'});
     } else {
@@ -204,7 +198,6 @@
     return Math.abs(ageDt.getUTCFullYear() - 1970);
   }
 
-  /* ---------- Visual helpers for form validation ---------- */
   function clearValidation(formEl) {
     qsa('.pa-field-error', formEl).forEach(node => node.remove());
     qsa('.pa-invalid', formEl).forEach(node => node.classList.remove('pa-invalid'));
@@ -214,25 +207,25 @@
     clearValidation(formEl);
     errors.forEach(err => {
       const field = err.field instanceof Element ? err.field : null;
-      // mark container or the field itself
+      
       let target = field;
       if (!target) {
         target = formEl;
       }
       if (field && field.querySelectorAll && field.querySelectorAll('input, select, textarea').length > 0) {
-        // container containing inputs => choose first child to mark
+        
         const child = field.querySelector('input, select, textarea') || field;
         child.classList.add('pa-invalid');
       } else if (field && (field.tagName === 'INPUT' || field.tagName === 'SELECT' || field.tagName === 'TEXTAREA')) {
         field.classList.add('pa-invalid');
       }
 
-      // create small message element
+      
       const msg = document.createElement('div');
       msg.className = 'pa-field-error';
       msg.textContent = err.message;
       if (field) {
-        // insert after field or inside container
+        
         if (field.tagName === 'INPUT' || field.tagName === 'SELECT' || field.tagName === 'TEXTAREA') {
           field.insertAdjacentElement('afterend', msg);
         } else {
@@ -244,26 +237,26 @@
     });
   }
 
-  /* ---------- Initialize dynamic behaviors inside a main container ---------- */
+  
   function initDynamicFeatures(container = document) {
-    // Lightbox for images inside .galeria, .cards-projetos or .cards-impacto
+    
     qsa('.galeria-container img, .cards-projetos img, .cards-impacto img, .img-destaque', container)
       .forEach(img => {
         img.style.cursor = 'zoom-in';
         img.addEventListener('click', () => openLightbox(img));
       });
 
-    // Form handling: cadastro page
+   
     const cadastroForm = container.querySelector('form[action="#"], form[action=""]') ||
                         container.querySelector('.formulario form') ||
                         container.querySelector('form');
     if (cadastroForm) {
-      // prevent multiple bindings
+    
       cadastroForm.removeEventListener?.('submit', cadastroSubmitHandler);
       cadastroForm.addEventListener('submit', cadastroSubmitHandler);
     }
 
-    // small enhancement: add data-link to internal project cards to route to cadastro
+    
     qsa('.projeto .botao, .card .botao, .participar .botao, .botao.destaque', container)
       .forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -276,9 +269,9 @@
       });
   }
 
-  /* ---------- Lightbox simple ---------- */
+ 
   function openLightbox(img) {
-    // create overlay
+   
     const overlay = document.createElement('div');
     overlay.className = 'pa-lightbox';
     overlay.innerHTML = `
@@ -288,13 +281,13 @@
       </div>
     `;
     document.body.appendChild(overlay);
-    // close handlers
+    
     overlay.addEventListener('click', (e) => {
       if (e.target === overlay || e.target.classList.contains('pa-lightbox-close')) {
         overlay.remove();
       }
     });
-    // esc key
+    
     window.setTimeout(() => {
       document.addEventListener('keydown', function esc(e) {
         if (e.key === 'Escape') {
@@ -305,7 +298,7 @@
     }, 0);
   }
 
-  /* ---------- Cadastro form submit handler ---------- */
+  /* ----------Manipulador de envio do formulário de cadastro ---------- */
   function cadastroSubmitHandler(e) {
     e.preventDefault();
     const form = e.currentTarget;
@@ -316,7 +309,7 @@
       showMessage(form, 'Corrija os campos destacados e tente novamente.', 'error', 6000);
       return;
     }
-    // gather additional details: checkboxes for volunteer areas or radio for doacao
+    
     const details = {};
     if (result.data.forma === 'voluntario') {
       const areas = Array.from(form.querySelectorAll('#opcaoVoluntario input[type="checkbox"]:checked'))
@@ -326,47 +319,46 @@
       const metodo = form.querySelector('#opcaoDoador input[type="radio"]:checked');
       details.metodo = metodo ? metodo.value : null;
     }
-    // store
+
     const payload = Object.assign({}, result.data, details);
     saveSubmission(payload);
 
-    // UX feedback
+    
     showMessage(form, 'Cadastro registrado com sucesso. Obrigado pela contribuição!', 'success', 6000);
     form.reset();
-    // hide conditional sections if any
+   
     const vol = form.querySelector('#opcaoVoluntario'); if (vol) vol.style.display = 'none';
     const doa = form.querySelector('#opcaoDoador'); if (doa) doa.style.display = 'none';
   }
 
-  /* ---------- Init SPA routing & popstate ---------- */
+
   function initRouting() {
-    // intercept nav clicks
+   
     document.addEventListener('click', handleLinkClicks);
 
-    // on popstate, load the URL if necessary
+    
     window.addEventListener('popstate', (ev) => {
       const url = location.pathname.split('/').pop() || 'index.html';
       loadPage(url, false);
     });
   }
 
-  /* ---------- Mount: run on DOMContentLoaded ---------- */
+ 
   function mount() {
-    // ensure script added with defer will run after initial DOM ready
+    
     initRouting();
     initDynamicFeatures(document);
-    // mark that SPA is active
     document.documentElement.classList.add('pa-spa-enabled');
   }
 
-  // run mount
+  
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', mount);
   } else {
     mount();
   }
 
-  /* ---------- Expose debug helpers on window (optional) ---------- */
+  
   window.ProjetoAir = {
     loadPage,
     getSubmissions,
@@ -374,4 +366,4 @@
     STORAGE_KEY
   };
 
-})(); // fim IIFE
+})(); // fim 
