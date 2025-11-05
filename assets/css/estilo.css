@@ -1,0 +1,397 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background: linear-gradient(to bottom, #FFD59A 0%, #FFFFFF 100%);
+    color: #333;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+/* ======== SIDEBAR / MENU ======== */
+.cabecalho {
+    background-color: #FF914D;
+    color: #fff;
+    padding: 20px;
+    width: 250px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.cabecalho h1 {
+    margin-bottom: 40px;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.menu ul {
+    list-style: none;
+    width: 100%;
+}
+
+.menu li {
+    margin: 15px 0;
+    text-align: center;
+}
+
+.menu a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    display: block;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background 0.3s;
+}
+
+.menu a:hover {
+    background-color: #ffbb80;
+}
+
+/* ======== CONTEÚDO PRINCIPAL ======== */
+main {
+    margin-left: 270px;
+    padding: 40px;
+    flex: 1;
+}
+
+section {
+    margin-bottom: 60px;
+}
+
+h2, h3 {
+    color: #e0691f;
+}
+
+/* ======== BOTÕES ======== */
+.botao, button {
+    background-color: #FF914D;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.botao:hover, button:hover {
+    background-color: #e0691f;
+    transform: scale(1.05);
+}
+
+/* ======== APRESENTAÇÃO ======== */
+.apresentacao {
+    text-align: center;
+}
+
+.apresentacao p {
+    margin: 10px 0;
+    line-height: 1.7;
+    font-size: 1.05rem;
+}
+
+.img-destaque {
+    width: 100%;
+    max-width: 750px;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    margin: 25px auto;
+    display: block;
+}
+
+/* ======== VALORES ======== */
+.valores {
+    text-align: center;
+}
+
+.valores ul {
+    list-style: none;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.valores li {
+    margin: 10px 0;
+    font-weight: 500;
+}
+
+.img-valores {
+    width: 100%;
+    max-width: 650px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    display: block;
+    margin: 20px auto;
+}
+
+/* ======== IMPACTO ======== */
+.impacto p {
+    margin: 10px 0 25px;
+    line-height: 1.7;
+}
+
+.cards-impacto {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+/* ======== PARTICIPAR ======== */
+.participar {
+    text-align: center;
+    background: #FF914D;
+    color: #fff;
+    padding: 50px 20px;
+    border-radius: 20px;
+    margin-top: 60px;
+}
+
+.participar h2 {
+    color: #fff;
+}
+
+.participar .botao.destaque {
+    background-color: #fff;
+    color: #FF914D;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.participar .botao.destaque:hover {
+    background-color: #ffe3cc;
+}
+
+/* ======== FORMULÁRIOS ======== */
+form {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+fieldset {
+    border: none;
+    margin-bottom: 20px;
+}
+
+legend {
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #e0691f;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #FF914D;
+}
+
+/* ======== RODAPÉ ======== */
+footer {
+    background-color: #FF914D;
+    color: #fff;
+    text-align: center;
+    padding: 18px 0;
+    font-size: 0.95em;
+    font-weight: 500;
+    width: 100%;
+    margin-top: auto;
+    box-shadow: 0 -3px 8px rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #ffb300;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* ======== LOGO ======== */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+/* ======== PÁGINA PROJETOS ======== */
+.introducao-projetos {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.introducao-projetos p {
+    max-width: 800px;
+    margin: 15px auto;
+    line-height: 1.7;
+    font-size: 1.05rem;
+}
+
+.cards-projetos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.projeto {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.projeto:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.projeto img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+.projeto h3 {
+    color: #e0691f;
+    margin-bottom: 10px;
+}
+
+/* ======== SEÇÃO NOSSO DIA A DIA ======== */
+.procedimento {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+    margin-top: 60px;
+    text-align: justify;
+}
+
+.procedimento h2 {
+    color: #e0691f;
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.procedimento h2::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: #FF914D;
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+.procedimento p {
+    line-height: 1.7;
+    margin-bottom: 20px;
+    color: #444;
+    font-size: 1.05rem;
+}
+
+/* melhora a fluidez em telas menores */
+@media (max-width: 768px) {
+    .procedimento {
+        padding: 25px;
+    }
+
+    .procedimento h2 {
+        font-size: 1.5rem;
+    }
+}
+
+/* ======== RESPONSIVIDADE ======== */
+@media (max-width: 1024px) {
+    main {
+        margin-left: 260px;
+        padding: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+
+    .cabecalho {
+        position: relative;
+        width: 100%;
+        min-height: auto;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 15px 20px;
+    }
+
+    .menu ul {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+    }
+
+    main {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .img-destaque, .img-valores {
+        max-width: 100%;
+    }
+
+    .cards-impacto {
+        grid-template-columns: 1fr;
+    }
+}

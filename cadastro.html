@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Projeto Air</title>
+    <link rel="stylesheet" href="assets/css/estilo.css">
+    <script>
+        // Função para exibir as seções certas conforme a escolha
+        function mostrarOpcao() {
+            const opcao = document.getElementById("formaContribuicao").value;
+            const voluntario = document.getElementById("opcaoVoluntario");
+            const doador = document.getElementById("opcaoDoador");
+
+            if (opcao === "voluntario") {
+                voluntario.style.display = "block";
+                doador.style.display = "none";
+            } else if (opcao === "doador") {
+                doador.style.display = "block";
+                voluntario.style.display = "none";
+            } else {
+                voluntario.style.display = "none";
+                doador.style.display = "none";
+            }
+        }
+    </script>
+</head>
+
+<script src="assets/js/app.js" defer></script>
+
+<body>
+    <header class="cabecalho">
+        <h1>Projeto Air</h1>
+        <nav class="menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="projetos.html">Projetos</a></li>
+                <li><a href="cadastro.html">Cadastre-se</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="formulario">
+            <h2>Seja parte do Projeto Air</h2>
+            <p>
+                Escolha como deseja contribuir para a inclusão e transformação através do esporte.
+            </p>
+
+            <form action="#" method="post">
+                <fieldset>
+                    <legend>Informações Pessoais</legend>
+
+                    <label for="nome">Nome Completo:</label>
+                    <input type="text" id="nome" name="nome" placeholder="Insira seu Nome" required>
+
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="email" placeholder="Insira um E-mail" required>
+
+                    <label for="contato">Contato:</label>
+                    <input type="tel" id="contato" name="contato" placeholder="(XX) XXXXX-XXXX" required>
+
+                    <label for="nascimento">Data de Nascimento:</label>
+                    <input type="date" id="nascimento" name="nascimento" required>
+
+                    <label for="uf">UF:</label>
+                    <select id="uf" name="uf" required>
+                        <option value="">Selecione</option>
+                        <option value="SP">SP</option>
+                        <option value="RJ">RJ</option>
+                        <option value="MG">MG</option>
+                        <option value="RS">RS</option>
+                        <option value="BA">BA</option>
+                        <option value="PE">PE</option>
+                    </select>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Forma de Contribuição</legend>
+
+                    <label for="formaContribuicao">Como você quer participar?</label>
+                    <select id="formaContribuicao" name="formaContribuicao" onchange="mostrarOpcao()" required>
+                        <option value="">Selecione</option>
+                        <option value="voluntario">Voluntário</option>
+                        <option value="doador">Doador</option>
+                    </select>
+                </fieldset>
+
+                <!-- Seção para Voluntários -->
+                <fieldset id="opcaoVoluntario" style="display: none;">
+                    <legend>Áreas de Trabalho Voluntário</legend>
+                    <p>Escolha onde deseja atuar:</p>
+
+                    <label><input type="checkbox" name="area" value="treinamentos"> Treinamentos Esportivos</label><br>
+                    <label><input type="checkbox" name="area" value="eventos"> Organização de Eventos</label><br>
+                    <label><input type="checkbox" name="area" value="educacao"> Oficinas Educacionais</label><br>
+                    <label><input type="checkbox" name="area" value="apoio"> Apoio em Comunidades</label><br>
+                </fieldset>
+
+                <!-- Seção para Doadores -->
+                <fieldset id="opcaoDoador" style="display: none;">
+                    <legend>Formas de Doação</legend>
+                    <p>Selecione como deseja contribuir financeiramente:</p>
+
+                    <label><input type="radio" name="doacao" value="pix"> PIX</label><br>
+                    <label><input type="radio" name="doacao" value="cartao"> Cartão de Crédito</label><br>
+                    <label><input type="radio" name="doacao" value="transferencia"> Transferência Bancária</label><br>
+                </fieldset>
+
+                <button type="submit">Enviar Cadastro</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Projeto Air — Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>
